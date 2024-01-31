@@ -1,0 +1,2 @@
+com.epam.javaadvanced.config.H2DataSourceAutoConfiguration
+com.epam.javaadvanced.config.HSQLDataSourceAutoConfiguration
