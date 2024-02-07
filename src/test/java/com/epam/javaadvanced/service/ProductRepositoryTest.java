@@ -1,24 +1,27 @@
 package com.epam.javaadvanced.service;
 
-import com.epam.javaadvanced.config.H2DataSourceAutoConfiguration;
 import com.epam.javaadvanced.model.Product;
+import com.epam.javaadvanced.repository.ProductRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@EnableAutoConfiguration(exclude = H2DataSourceAutoConfiguration.class)
-public class ProductServiceHSQLTest {
+@ActiveProfiles(value = "test")
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = NONE)
+public class ProductRepositoryTest {
 
     @Autowired
-    private ProductService productService;
+    private ProductRepository productRepository;
 
     @Test
     public void addProductTest() {
@@ -27,7 +30,7 @@ public class ProductServiceHSQLTest {
         Product product = new Product();
         product.setName(productName);
 
-        Product savedProduct = productService.addProduct(product);
+        Product savedProduct = productRepository.save(product);
 
         assertNotNull(savedProduct);
         assertEquals(productName, savedProduct.getName());
